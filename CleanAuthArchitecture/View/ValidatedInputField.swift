@@ -21,6 +21,7 @@ struct ValidatedInputField<Content: View, Field: ValidatingField>: View {
                     .font(.caption)
                     .animation(.easeInOut)
                     .padding(.leading, 2)
+                    .accessibilityIdentifier("fieldError")
             }
         }
         .onChange(of: field.error?.localizedDescription) { _, _ in

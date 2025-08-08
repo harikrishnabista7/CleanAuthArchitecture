@@ -14,6 +14,7 @@ class LoginViewModel<LoginForm: LoginFormComposition>: ObservableObject {
     @Published var error: String?
     @Published var isLoading = false
     @Published var loggedInUser: User?
+    @Published var alertError: String?
 
     init(loginForm: LoginForm, authenticationService: AuthenticationService) {
         self.loginForm = loginForm
@@ -23,6 +24,7 @@ class LoginViewModel<LoginForm: LoginFormComposition>: ObservableObject {
     func performLogin() async {
         let result = loginForm.validateForm()
         guard result.isValid else {
+            error = result.error?.localizedDescription
             return
         }
         
@@ -34,7 +36,7 @@ class LoginViewModel<LoginForm: LoginFormComposition>: ObservableObject {
             loggedInUser = try await authenticationService.authenticate(credential: loginForm.makeCredential())
             loginForm.clearForm()
         } catch {
-            self.error = error.localizedDescription
+            self.alertError = error.localizedDescription
         }
     }
 }

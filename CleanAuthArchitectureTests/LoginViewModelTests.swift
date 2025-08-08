@@ -81,7 +81,7 @@ final class LoginViewModelTests: XCTestCase {
 
         await viewModel.performLogin()
  
-        XCTAssertTrue(viewModel.error == MockError(errorMessage: "Invalid credentials").localizedDescription)
+        XCTAssertTrue(viewModel.alertError == MockError(errorMessage: "Invalid credentials").localizedDescription)
     }
 
     @MainActor
@@ -96,6 +96,7 @@ final class LoginViewModelTests: XCTestCase {
 
         await viewModel.performLogin()
 
+        XCTAssertNil(viewModel.alertError)
         XCTAssertNil(viewModel.error)
         XCTAssertTrue(viewModel.loggedInUser?.id == "123")
     }
